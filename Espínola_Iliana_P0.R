@@ -1,9 +1,9 @@
-## iliana espínola ##
+## iliana espinola ##
 ## primer tarea genomica funcional ##
 
-# 1. A partir de las siguientes secuencias concatenadas de RNA que te envío como archivo 
-# adjunto en formato fasta encuentra (usando librerías especializadas) la secuencia 
-# correspondiente de aminoácidos.
+# 1. A partir de las siguientes secuencias concatenadas de RNA que te env?o como archivo 
+# adjunto en formato fasta encuentra (usando librer?as especializadas) la secuencia 
+# correspondiente de amino?cidos.
 
 library(Biostrings)
 
@@ -13,30 +13,25 @@ translate(secRNA)
 # 2. Escoge dos problemas de la plataforma Rosalind de entre los siguientes: Counting 
 # DNA Nucleotides, Complementing a Strand of DNA, Computing GC Content, Calculating 
 # Protein Mass. Escribe un programa que resuelva los dos problemas que seleccionaste, 
-# en ambos, casos, debes buscar una solución sin usar librerías especializadas y otra 
-# con librerías especializadas.
+# en ambos, casos, debes buscar una soluci?n sin usar librer?as especializadas y otra 
+# con librer?as especializadas.
 
 ## COUNTING DNA NUCLEOTIDES ##
 
-# SIN LIBRERIAS #
+# SIN LIBRERIAS especializadas #
 nucleotidos <- ("AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC")
 
-total_A <- 0
-total_G <- 0
-total_C <- 0
-total_T <- 0
+a <- grepRaw("A", nucleotidos, all = TRUE, fixed = TRUE)
+length(a)
 
-for(i in 1:length(nucleotidos)) {
-    if(i == "A") {total_A <- total_A +1}
-    { if(i == "G") {total_G <- total_G +1}}
-    { if(i == "C") {total_C <- total_C +1}}
-  {if(i == "T") {total_T <- total_T +1}}
-  }
+g <- grepRaw("G", nucleotidos, all = TRUE, fixed = TRUE)
+length(g)
 
-print(total_A)
-print(total_C)
-print(total_G)
-print(total_T)
+t <- grepRaw("T", nucleotidos, all = TRUE, fixed = TRUE)
+length(t)
+
+c <- grepRaw("C", nucleotidos, all = TRUE, fixed = TRUE)
+length(c)
 
 # con librerias #
 secDNA <- DNAString("AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC")
@@ -45,28 +40,14 @@ alphabetFrequency(secDNA, baseOnly=TRUE)
 
 ## COMPUTING GC CONTENT ##
 
-Rosalind_6404 <- "CCTGCGGAAGATCGGCACTAGAATAGCCAGAACCGTTTCTCTGAGGCTTCCGGCCTTCCC
-TCCCACTAATAATTCTGAGG"
-Rosalind_5959 <- "CCATCGGTAGCGCATCCTTAGTCCAATTAAGTCCCTATCCAGGCGCTCCGCCGAAGGTCT
-ATATCCATTTGTCAGCAGACACGC"
-Rosalind_0808 <- "CCACCCTCGTGGTATGGCTAGGCATTCAGGAACCGGAGAACGCTTCAGACCAGCCCGGAC
-TGGGAACCTGCGGGCAGTAGGTGGAAT"
-
 # sin librerias #
-GC1 <- letterFrequency(Rosalind_6404, "CG", as.prob =TRUE)
-print(paste("la frecuencia de la primera secuencia es", GC1))
 
 # con librerias #
+secss <- readDNAStringSet("secdna.txt", format="fasta")
 
-Rosalind_6404 <- DNAString("CCTGCGGAAGATCGGCACTAGAATAGCCAGAACCGTTTCTCTGAGGCTTCCGGCCTTCCCTCCCACTAATAATTCTGAGG")
-Rosalind_5959 <- DNAString("CCATCGGTAGCGCATCCTTAGTCCAATTAAGTCCCTATCCAGGCGCTCCGCCGAAGGTCTATATCCATTTGTCAGCAGACACGC")
-Rosalind_0808 <- DNAString("CCACCCTCGTGGTATGGCTAGGCATTCAGGAACCGGAGAACGCTTCAGACCAGCCCGGACTGGGAACCTGCGGGCAGTAGGTGGAAT")
+gc <- letterFrequency(secss, c("GC"), as.prob=TRUE)
 
-GC5 <- letterFrequency(Rosalind_6404, "GC", as.prob = TRUE)
-GC5
+index = which(gc == max(gc))
+name = secss@ranges@NAMES[index]  
 
-GC6 <- letterFrequency(Rosalind_0808, "GC", as.prob = TRUE)
-GC6
-
-GC7 <- letterFrequency(Rosalind_5959, "GC", as.prob = TRUE)
-GC7
+print(paste("la secuencia", name, "tiene el contenido de GC mÃ¡s alto con", (max(gc)*100)))
